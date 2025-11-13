@@ -52,22 +52,65 @@ b) 默认行为：
 输出变量：
 - spec_type = "global" | "feature"
 
-2. 运行脚本 `.game.design/scripts/bash/create-new-feature.sh --json --type <spec_type> --short-name "<生成的短名称>" "$ARGUMENTS"`，解析 JSON 输出获取 BRANCH_NAME、SPEC_FILE、FEATURE_NUM、SPEC_TYPE。所有文件路径必须为绝对路径。
+2. **检查现有分支并确定编号**（仅功能型 spec）：
+
+   如果 spec_type == "feature"：
+
+   a. 首先，获取所有远程分支以确保拥有最新信息：
+      ```bash
+      git fetch --all --prune
+      ```
+
+   b. 查找该 short-name 的最高功能编号，检查所有三个源：
+      - 远程分支：`git ls-remote --heads origin | grep -E 'refs/heads/[0-9]+-<short-name>$'`
+      - 本地分支：`git branch | grep -E '^[* ]*[0-9]+-<short-name>$'`
+      - gamedesigns 目录：检查匹配 `gamedesigns/[0-9]+-<short-name>` 的目录
+
+   c. 确定下一个可用编号：
+      - 从所有三个源提取所有编号
+      - 找到最高编号 N
+      - 使用 N+1 作为新分支编号
+
+   d. 将计算好的编号保存到变量 BRANCH_NUMBER
+
+   **编号检查规则**：
+   - 检查所有三个源（远程分支、本地分支、gamedesigns 目录）以找到最高编号
+   - 只匹配精确 short-name 模式的分支/目录
+   - 如果未找到该 short-name 的现有分支/目录，从编号 1 开始
+   - 跳过编号 000（保留给全局 spec）
+
+   如果 spec_type == "global"：
+   - 跳过此步骤（全局 spec 始终使用 000）
+
+3. 运行脚本创建 spec 目录和文件：
+
+   **功能型 spec**：
+   ```bash
+   .game.design/scripts/bash/create-new-feature.sh --json --type feature --number <BRANCH_NUMBER> --short-name "<生成的短名称>" "$ARGUMENTS"
+   ```
+
+   **全局型 spec**：
+   ```bash
+   .game.design/scripts/bash/create-new-feature.sh --json --type global --short-name "<生成的短名称>" "$ARGUMENTS"
+   ```
+
+   解析 JSON 输出获取 BRANCH_NAME、SPEC_FILE、FEATURE_NUM、SPEC_TYPE。所有文件路径必须为绝对路径。
 
    **重要**：
-   - 传递 `--type` 参数（使用步骤 1.5 判断的 spec_type）
-   - 脚本会根据类型分配正确的 feature number：
-     - type=global → 000-<short-name>
-     - type=feature → 下一个可用编号（001, 002, ...）
+   - 功能型必须传递 `--number` 参数（使用步骤 2 计算的 BRANCH_NUMBER）
+   - 全局型不需要 `--number`（脚本强制使用 000）
+   - 传递 `--type` 参数和 `--short-name` 参数
    - 脚本在 `gamedesigns/` 目录下创建 spec 目录
    - 只能运行此脚本一次
-   - JSON 输出示例：`{"BRANCH_NAME":"000-game-vision","SPEC_FILE":"/path/to/gamedesigns/000-game-vision/spec.md","FEATURE_NUM":"000","SPEC_TYPE":"global"}`
+   - JSON 输出示例：
+     - 全局型：`{"BRANCH_NAME":"000-game-vision","SPEC_FILE":"/path/to/gamedesigns/000-game-vision/spec.md","FEATURE_NUM":"000","SPEC_TYPE":"global"}`
+     - 功能型：`{"BRANCH_NAME":"003-combat-system","SPEC_FILE":"/path/to/gamedesigns/003-combat-system/spec.md","FEATURE_NUM":"003","SPEC_TYPE":"feature"}`
 
-3. 根据 SPEC_TYPE 加载对应的规范模板：
+4. 根据 SPEC_TYPE 加载对应的规范模板：
    - 如果 SPEC_TYPE == "global" → 加载 `.game.design/templates/spec-template-global.md`
    - 如果 SPEC_TYPE == "feature" → 加载 `.game.design/templates/spec-template-feature.md`
 
-4. 执行以下 NLP 提取流程：
+5. 执行以下 NLP 提取流程：
 
    1. 解析用户描述
       如果为空：ERROR "未提供游戏或功能描述"
@@ -117,9 +160,9 @@ b) 默认行为：
 
    8. 返回：SUCCESS（规范准备好进入 planning）
 
-5. 将规范写入 SPEC_FILE，使用模板结构，用从功能描述提取的具体细节替换占位符，同时保持章节顺序和标题。
+6. 将规范写入 SPEC_FILE，使用模板结构，用从功能描述提取的具体细节替换占位符，同时保持章节顺序和标题。
 
-6. **规范质量验证**：写入初始规范后，根据质量标准进行验证：
+7. **规范质量验证**：写入初始规范后，根据质量标准进行验证：
 
    a. **创建规范质量检查清单**：在 `FEATURE_DIR/checklists/requirements.md` 生成检查清单文件，包含以下验证项：
 
@@ -192,12 +235,12 @@ b) 默认行为：
 
    d. **更新 Checklist**：每次验证迭代后更新检查清单文件的通过/失败状态
 
-6.5. **与设计支柱一致性检查**：
+7.5. **与设计支柱一致性检查**：
 
 a) 读取 `.game.design/memory/pillars.md` 文件：
    - 如果文件不存在：
      WARNING "未找到 pillars.md，建议先运行 /game.designkit.pillars 创建设计支柱"
-     跳过一致性检查，继续步骤 7
+     跳过一致性检查，继续步骤 8
    - 如果文件存在：继续检查
 
 b) 提取设计支柱列表：
@@ -217,12 +260,12 @@ c) 检测冲突：
    - 检测约束条件冲突
 
 d) 记录冲突：
-   - 如果发现冲突：记录到内存中的冲突列表（在步骤 7 输出）
+   - 如果发现冲突：记录到内存中的冲突列表（在步骤 8 输出）
    - 如果无冲突：记录"✅ 与设计支柱一致"
 
 **注意**：只检测明显冲突，避免误报。不确定时不标记冲突。
 
-7. 报告完成情况，包含：分支名称、spec 类型、feature number、规范文件路径、checklist 结果、一致性检查结果、需要澄清的字段列表（如果有）、下一阶段建议（`/game.designkit.clarify` 或 `/game.designkit.plan`）。
+8. 报告完成情况，包含：分支名称、spec 类型、feature number（包括如何计算的）、规范文件路径、checklist 结果、一致性检查结果、需要澄清的字段列表（如果有）、下一阶段建议（`/game.designkit.clarify` 或 `/game.designkit.plan`）。
 
 **注意**：脚本会创建并切换到新分支，初始化规范文件。
 

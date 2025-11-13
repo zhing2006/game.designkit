@@ -7,8 +7,16 @@
 
 ## [未发布]
 
+### 改进
+
+- **`create-new-feature.sh`** - 增强分支编号管理，避免多人协作冲突
+  - 添加 `check_existing_branches()` 函数，检查三个源（远程分支、本地分支、gamedesigns目录）
+  - 添加 `--number` 参数支持手动指定分支编号
+  - 在创建新 feature spec 前自动 `git fetch` 获取最新远程分支信息
+  - 基于相同 short-name 的最高编号自动递增，防止编号冲突
+  - 同步 Speckit v0.0.79 改进
+
 ### 计划功能
-- 同步SpecKit更新最新版
 - 命令多语言支持（英文版本）
 - 模板多语言支持（英文版本）
 
