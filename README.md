@@ -52,7 +52,7 @@ Spec-Driven：规范为先 → 规范驱动整个工作流
 
 ## 什么是 GameDesignKit
 
-**GameDesignKit** 是针对**游戏策划领域**的 Spec-Driven Development 工具包，改造自 GitHub 的 [Speckit](https://github.com/github/speckit)。
+**GameDesignKit** 是针对**游戏策划领域**的 Spec-Driven Development 工具包，改造自 GitHub 的 [Speckit](https://github.com/github/spec-kit)。
 
 ### 关键特性
 
@@ -362,7 +362,7 @@ P3（锦上添花）: 添加每日挑战和排行榜
 
 ## 与 Speckit 的关系
 
-GameDesignKit 是 GitHub [Speckit](https://github.com/github/speckit) 的游戏设计领域适配版。
+GameDesignKit 是 GitHub [Speckit](https://github.com/github/spec-kit) 的游戏设计领域适配版。
 
 ### Speckit 是什么？
 
@@ -484,7 +484,7 @@ MIT License - 详见 [LICENSE](LICENSE)
 
 ## 致谢
 
-- 感谢 [GitHub Speckit](https://github.com/github/speckit) 提供的优秀基础框架
+- 感谢 [GitHub Speckit](https://github.com/github/spec-kit) 提供的优秀基础框架
 - 感谢 [Claude Code](https://docs.claude.com/claude-code) 提供的强大 AI 工作流能力
 
 ---

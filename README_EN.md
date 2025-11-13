@@ -52,7 +52,7 @@ Spec-Driven: Specs first → Specs drive the entire workflow
 
 ## What is GameDesignKit
 
-**GameDesignKit** is a Spec-Driven Development toolkit adapted for **game design**, forked from GitHub's [Speckit](https://github.com/github/speckit).
+**GameDesignKit** is a Spec-Driven Development toolkit adapted for **game design**, forked from GitHub's [Speckit](https://github.com/github/spec-kit).
 
 ### Key Features
 
@@ -363,7 +363,7 @@ P3 (Nice-to-have): Add daily challenges and leaderboards
 
 ## Relationship with Speckit
 
-GameDesignKit is a game design domain adaptation of GitHub's [Speckit](https://github.com/github/speckit).
+GameDesignKit is a game design domain adaptation of GitHub's [Speckit](https://github.com/github/spec-kit).
 
 ### What is Speckit?
 
@@ -486,7 +486,7 @@ MIT License - See [LICENSE](LICENSE)
 
 ## Acknowledgments
 
-- Thanks to [GitHub Speckit](https://github.com/github/speckit) for providing an excellent foundational framework
+- Thanks to [GitHub Speckit](https://github.com/github/spec-kit) for providing an excellent foundational framework
 - Thanks to [Claude Code](https://docs.claude.com/claude-code) for providing powerful AI workflow capabilities
 
 ---
