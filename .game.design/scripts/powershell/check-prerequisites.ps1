@@ -63,18 +63,6 @@ if (-not (Test-FeatureBranch -Branch $paths.CURRENT_BRANCH -HasGit:$paths.HAS_GI
     exit 1
 }
 
-# Extract feature number and determine spec type
-if ($paths.CURRENT_BRANCH -match '^(\d+)-') {
-    $featureNum = $matches[1]
-    if ($featureNum -eq "000") {
-        $specType = "global"
-    } else {
-        $specType = "feature"
-    }
-} else {
-    $specType = "feature"  # Default fallback
-}
-
 # If paths-only mode, output paths and exit (support combined -Json -PathsOnly)
 if ($PathsOnly) {
     if ($Json) {
@@ -85,7 +73,7 @@ if ($PathsOnly) {
             FEATURE_SPEC = $paths.FEATURE_SPEC
             IMPL_PLAN    = $paths.IMPL_PLAN
             TASKS        = $paths.TASKS
-            SPEC_TYPE    = $specType
+            SPEC_TYPE    = $paths.SPEC_TYPE
         } | ConvertTo-Json -Compress
     } else {
         Write-Output "REPO_ROOT: $($paths.REPO_ROOT)"
@@ -94,7 +82,7 @@ if ($PathsOnly) {
         Write-Output "FEATURE_SPEC: $($paths.FEATURE_SPEC)"
         Write-Output "IMPL_PLAN: $($paths.IMPL_PLAN)"
         Write-Output "TASKS: $($paths.TASKS)"
-        Write-Output "SPEC_TYPE: $specType"
+        Write-Output "SPEC_TYPE: $($paths.SPEC_TYPE)"
     }
     exit 0
 }

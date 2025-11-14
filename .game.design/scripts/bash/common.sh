@@ -136,6 +136,13 @@ get_feature_paths() {
     # Use prefix-based lookup to support multiple branches per spec
     local feature_dir=$(find_feature_dir_by_prefix "$repo_root" "$current_branch")
 
+    # Extract feature number and determine spec type
+    local feature_num=$(echo "$current_branch" | sed -E 's/^([0-9]+)-.*/\1/')
+    local spec_type="feature"  # default
+    if [ "$feature_num" == "000" ]; then
+        spec_type="global"
+    fi
+
     cat <<EOF
 REPO_ROOT='$repo_root'
 CURRENT_BRANCH='$current_branch'
@@ -148,6 +155,7 @@ RESEARCH='$feature_dir/research.md'
 DATA_MODEL='$feature_dir/data-model.md'
 QUICKSTART='$feature_dir/quickstart.md'
 CONTRACTS_DIR='$feature_dir/contracts'
+SPEC_TYPE='$spec_type'
 EOF
 }
 

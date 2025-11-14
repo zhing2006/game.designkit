@@ -82,14 +82,6 @@ source "$SCRIPT_DIR/common.sh"
 eval $(get_feature_paths)
 check_feature_branch "$CURRENT_BRANCH" "$HAS_GIT" || exit 1
 
-# Extract feature number and determine spec type
-FEATURE_NUM=$(echo "$CURRENT_BRANCH" | sed -E 's/^([0-9]+)-.*/\1/')
-if [ "$FEATURE_NUM" == "000" ]; then
-    SPEC_TYPE="global"
-else
-    SPEC_TYPE="feature"
-fi
-
 # If paths-only mode, output paths and exit (support JSON + paths-only combined)
 if $PATHS_ONLY; then
     if $JSON_MODE; then

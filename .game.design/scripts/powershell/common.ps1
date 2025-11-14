@@ -98,6 +98,15 @@ function Get-FeaturePathsEnv {
     $hasGit = Test-HasGit
     $featureDir = Get-FeatureDir -RepoRoot $repoRoot -Branch $currentBranch
 
+    # Extract feature number and determine spec type
+    $specType = "feature"  # default
+    if ($currentBranch -match '^(\d+)-') {
+        $featureNum = $matches[1]
+        if ($featureNum -eq "000") {
+            $specType = "global"
+        }
+    }
+
     [PSCustomObject]@{
         REPO_ROOT     = $repoRoot
         CURRENT_BRANCH = $currentBranch
@@ -110,6 +119,7 @@ function Get-FeaturePathsEnv {
         DATA_MODEL    = Join-Path $featureDir 'data-model.md'
         QUICKSTART    = Join-Path $featureDir 'quickstart.md'
         CONTRACTS_DIR = Join-Path $featureDir 'contracts'
+        SPEC_TYPE     = $specType
     }
 }
 

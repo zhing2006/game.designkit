@@ -9,6 +9,14 @@
 
 ### 新增功能
 
+- **Windows PowerShell 支持** - 完整的跨平台脚本支持
+  - 同步所有 bash 脚本改造：`common.ps1`, `check-prerequisites.ps1`, `create-new-feature.ps1`, `setup-plan.ps1`
+  - 支持 `-Type <global|feature>` 参数区分规范类型
+  - 支持 `--number` 参数手动指定分支编号
+  - 目录结构完全对齐：`gamedesigns/`, `.game.design/`
+  - 环境变量：`GAMEDESIGN_FEATURE`
+  - 输出包含 `SPEC_TYPE` 字段
+
 - **Codex CLI, Cursor 支持** - 通过符号链接复用 Claude Code 命令文件
   - 添加 `.codex/prompts`, `.cursor/commands` 符号链接指向 `.claude/commands`
   - 所有7个命令文件自动在 Codex CLI, Cursor 中可用
@@ -17,15 +25,22 @@
 
 ### 改进
 
-- **`create-new-feature.sh`** - 增强分支编号管理，避免多人协作冲突
-  - 添加 `check_existing_branches()` 函数，检查三个源（远程分支、本地分支、gamedesigns目录）
-  - 添加 `--number` 参数支持手动指定分支编号
+- **脚本重构：SPEC_TYPE 提取统一化**
+  - 将 spec type 判断逻辑移至 `common.sh` / `common.ps1` 的 `get_feature_paths()` 函数
+  - 所有脚本通过 `SPEC_TYPE` 变量自动获取规范类型（global/feature）
+  - 删除 `check-prerequisites` 中的重复代码
+  - `setup-plan` 新增 `SPEC_TYPE` 输出字段
+  - 提升代码可维护性和一致性
+
+- **`create-new-feature.sh/.ps1`** - 增强分支编号管理，避免多人协作冲突
+  - 添加 `check_existing_branches()` / `Get-NextBranchNumber` 函数
+  - 检查三个源：远程分支、本地分支、gamedesigns 目录
+  - 添加 `--number` / `-Number` 参数支持手动指定分支编号
   - 在创建新 feature spec 前自动 `git fetch` 获取最新远程分支信息
   - 基于相同 short-name 的最高编号自动递增，防止编号冲突
   - 同步 Speckit v0.0.79 改进
 
 ### 计划功能
-- Windows Power Shell 支持
 - 命令多语言支持（英文版本）
 - 模板多语言支持（英文版本）
 
