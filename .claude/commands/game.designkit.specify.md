@@ -85,11 +85,21 @@ b) 默认行为：
 3. 运行脚本创建 spec 目录和文件：
 
    **功能型 spec**：
+   Windows:
+   ```powershell
+   .game.design\scripts\powershell\create-new-feature.ps1 -Json -Type feature -Number <BRANCH_NUMBER> -ShortName "<生成的短名称>" "$ARGUMENTS"
+   ```
+   Linux or MacOS:
    ```bash
    .game.design/scripts/bash/create-new-feature.sh --json --type feature --number <BRANCH_NUMBER> --short-name "<生成的短名称>" "$ARGUMENTS"
    ```
 
    **全局型 spec**：
+   Windows:
+   ```powershell
+   .game.design\scripts\powershell\create-new-feature.ps1 -Json -Type global -ShortName "<生成的短名称>" "$ARGUMENTS"
+   ```
+   Linux or MacOS:
    ```bash
    .game.design/scripts/bash/create-new-feature.sh --json --type global --short-name "<生成的短名称>" "$ARGUMENTS"
    ```

@@ -12,7 +12,10 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## 执行流程概述
 
-1. **设置**：从仓库根目录运行 `.game.design/scripts/bash/setup-plan.sh --json` 并解析 JSON 获取 FEATURE_SPEC、IMPL_PLAN、SPECS_DIR、BRANCH。For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+1. **设置**：从仓库根目录运行
+  Windows: `.game.design\scripts\powershell\setup-plan.ps1 -Json`
+  Linux or MacOS: `.game.design/scripts/bash/setup-plan.sh --json`
+并解析 JSON 获取 FEATURE_SPEC、IMPL_PLAN、SPECS_DIR、BRANCH。For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
 
 2. **加载上下文**：读取 FEATURE_SPEC 和 `.game.design/memory/pillars.md`（设计支柱）。加载 IMPL_PLAN 模板（已复制）。
    - **检查 [NEEDS CLARIFICATION]**：如果 FEATURE_SPEC 包含 [NEEDS CLARIFICATION] 标记，警告用户并建议先运行 `/game.designkit.clarify`。

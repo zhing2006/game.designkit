@@ -24,7 +24,11 @@ $ARGUMENTS
 
 ### 1. 初始化分析上下文
 
-从仓库根目录运行 `.game.design/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks` 一次，并解析 JSON 获取 FEATURE_DIR 和 AVAILABLE_DOCS。推导绝对路径：
+
+从仓库根目录运行
+  Windows: `.game.design\scripts\powershell\check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks`
+  Linux or MacOS: `.game.design/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks`
+一次，并解析 JSON 获取 FEATURE_DIR 和 AVAILABLE_DOCS。推导绝对路径：
 
 - SPEC = FEATURE_DIR/spec.md
 - PLAN = FEATURE_DIR/plan.md

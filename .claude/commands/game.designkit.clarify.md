@@ -18,7 +18,10 @@ $ARGUMENTS
 
 执行步骤：
 
-1. 从仓库根目录运行 `.game.design/scripts/bash/check-prerequisites.sh --json --paths-only` **一次**（组合 `--json --paths-only` 模式）。解析 JSON 字段：
+1. 从仓库根目录运行
+  Windows: `.game.design\scripts\powershell\check-prerequisites.ps1 -Json -PathsOnly`
+  Linux or MacOS: `.game.design/scripts/bash/check-prerequisites.sh --json --paths-only`
+**一次**。解析 JSON 字段：
    - `FEATURE_DIR`
    - `FEATURE_SPEC`
    - `SPEC_TYPE`
