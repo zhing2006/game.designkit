@@ -101,7 +101,7 @@ b) 默认行为：
         ERROR "未找到 global 型规范，建议先运行 /game.designkit.specify 创建世界观和设计愿景规范"
         结束，不再执行后续步骤
 
-1. 运行脚本创建 spec 目录和文件：
+3. 运行脚本创建 spec 目录和文件：
 
    **功能型 spec**：
    Windows:
@@ -135,16 +135,16 @@ b) 默认行为：
      - 全局型：`{"BRANCH_NAME":"000-game-vision","SPEC_FILE":"/path/to/gamedesigns/000-game-vision/spec.md","FEATURE_NUM":"000","SPEC_TYPE":"global"}`
      - 功能型：`{"BRANCH_NAME":"003-combat-system","SPEC_FILE":"/path/to/gamedesigns/003-combat-system/spec.md","FEATURE_NUM":"003","SPEC_TYPE":"feature"}`
 
-2. 根据 SPEC_TYPE 加载对应的规范模板：
+4. 根据 SPEC_TYPE 加载对应的规范模板：
    - 如果 SPEC_TYPE == "global" → 加载 `.game.design/templates/spec-template-global.md`
    - 如果 SPEC_TYPE == "feature" → 加载 `.game.design/templates/spec-template-feature.md`
 
-3. 执行以下 NLP 提取流程：
+5. 执行以下 NLP 提取流程：
 
-   1. 解析用户描述
+   a. 解析用户描述
       如果为空：ERROR "未提供游戏或功能描述"
 
-   2. 根据 SPEC_TYPE 提取关键概念：
+   b. 根据 SPEC_TYPE 提取关键概念：
 
       **全局型（game-vision）提取内容**：
       - 游戏类型（ARPG、Roguelike、建造、策略、射击、RPG、模拟等）
@@ -163,7 +163,7 @@ b) 默认行为：
       - 玩家操作（操作流程）
       - 系统接口（与其他系统的对接点）
 
-   3. 对于不明确的方面：
+   c. 对于不明确的方面：
       - 基于上下文和游戏行业标准做出合理推测
       - 仅当满足以下条件时标记 [NEEDS CLARIFICATION: 具体问题]：
         - 该选择显著影响功能范围或玩家体验
@@ -172,26 +172,26 @@ b) 默认行为：
       - **限制：最多 3 个 [NEEDS CLARIFICATION] 标记**
       - 优先级：范围 > 体验目标 > 系统设计 > 细节
 
-   4. 填充用户故事章节：
+   d. 填充用户故事章节：
       - 全局型：填充"高层用户故事"（玩家的整体游戏体验）
       - 功能型：填充"用户故事"（玩家如何使用该功能）
       如果无法确定用户流程：ERROR "无法确定玩家体验场景"
 
-   5. 生成功能需求（仅功能型 spec）：
+   e. 生成功能需求（仅功能型 spec）：
       每个需求必须可测试
       对未指定的细节使用合理默认值（在"依赖与假设"章节记录假设，如果模板包含此章节）
 
-   6. 定义体验目标（全局型 spec）：
+   f. 定义体验目标（全局型 spec）：
       创建可验证的、技术无关的体验结果
 
-   7. 识别关键实体（如果涉及游戏实体）：
+   g. 识别关键实体（如果涉及游戏实体）：
       如角色、道具、系统等
 
-   8. 返回：SUCCESS（规范准备好进入 planning）
+   h. 返回：SUCCESS（规范准备好进入 planning）
 
-4. 将规范写入 SPEC_FILE，使用模板结构，用从功能描述提取的具体细节替换占位符，同时保持章节顺序和标题。
+6. 将规范写入 SPEC_FILE，使用模板结构，用从功能描述提取的具体细节替换占位符，同时保持章节顺序和标题。
 
-5. **规范质量验证**：写入初始规范后，根据质量标准进行验证：
+7. **规范质量验证**：写入初始规范后，根据质量标准进行验证：
 
    a. **创建规范质量检查清单**：在 `FEATURE_DIR/checklists/requirements.md` 生成检查清单文件，包含以下验证项：
 
