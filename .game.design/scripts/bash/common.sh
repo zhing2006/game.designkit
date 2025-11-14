@@ -68,7 +68,7 @@ check_feature_branch() {
 
     # For non-git repos, we can't enforce branch naming but still provide output
     if [[ "$has_git_repo" != "true" ]]; then
-        echo "[specify] Warning: Git repository not detected; skipped branch validation" >&2
+        echo "[game.designkit] Warning: Git repository not detected; skipped branch validation" >&2
         return 0
     fi
 
@@ -99,7 +99,7 @@ find_feature_dir_by_prefix() {
 
     local prefix="${BASH_REMATCH[1]}"
 
-    # Search for directories in specs/ that start with this prefix
+    # Search for directories in gamedesigns/ that start with this prefix
     local matches=()
     if [[ -d "$specs_dir" ]]; then
         for dir in "$specs_dir"/"$prefix"-*; do
