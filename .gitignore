@@ -5,7 +5,13 @@
 
 # Exclude everything in .codex except prompts
 .codex/*
+!.codex/prompts/
 !.codex/prompts
+
+# Exclude everything in .cursor except commands
+.cursor/*
+!.cursor/commands/
+!.cursor/commands
 
 # MCP files
 .mcp.json

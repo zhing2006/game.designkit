@@ -62,7 +62,7 @@ Spec-Driven：规范为先 → 规范驱动整个工作流
 - 🔄 **双类型规范**：
   - 全局规范（000-*）：游戏愿景、世界观、核心玩法
   - 功能规范（001+）：战斗系统、装备系统等具体功能
-- 🤖 **集成 Claude Code**：所有命令通过 Claude Code CLI 执行
+- 🤖 **多 AI 工具支持**：兼容 Claude Code、Codex CLI、Cursor（通过符号链接零成本复用命令）
 
 ### 适用场景
 
@@ -95,9 +95,22 @@ GameDesignKit 解决游戏策划的三大痛点：
 
 ### 前置要求
 
-- [Claude Code CLI](https://docs.claude.com/claude-code) 已安装
+**选择一个 AI 编程工具**（三选一）：
+
+| 工具 | 命令路径 | 官方链接 | 说明 |
+|------|----------|----------|------|
+| **Claude Code** | `.claude/commands/` | [官方文档](https://docs.claude.com/claude-code) | Anthropic 官方 CLI |
+| **Codex CLI** | `.codex/prompts/` | [GitHub](https://github.com/openai/codex) | OpenAI 官方 CLI |
+| **Cursor** | `.cursor/commands/` | [官网](https://www.cursor.com/) | AI 代码编辑器 |
+
+**其他要求**：
 - Git
 - Node.js（可选，用于脚本自动化）
+
+**符号链接说明**：
+- `.codex/prompts` 和 `.cursor/commands` 是符号链接，指向 `.claude/commands`
+- 所有工具共享同一套命令文件，零维护成本
+- Windows 用户需要启用开发者模式或管理员权限以支持符号链接
 
 ### 安装
 

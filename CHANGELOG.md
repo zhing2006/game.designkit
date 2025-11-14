@@ -9,10 +9,10 @@
 
 ### 新增功能
 
-- **Codex CLI 支持** - 通过符号链接复用 Claude Code 命令文件
-  - 添加 `.codex/prompts` 符号链接指向 `.claude/commands`
-  - 所有7个命令文件自动在 Codex CLI 中可用
-  - 零维护成本：修改 `.claude/commands/` 中的文件自动同步到 Codex
+- **Codex CLI, Cursor 支持** - 通过符号链接复用 Claude Code 命令文件
+  - 添加 `.codex/prompts`, `.cursor/commands` 符号链接指向 `.claude/commands`
+  - 所有7个命令文件自动在 Codex CLI, Cursor 中可用
+  - 零维护成本：修改 `.claude/commands/` 中的文件自动同步到 Codex CLI, Cursor
   - 修复 `.gitignore` 规则以正确跟踪符号链接（去掉尾部斜杠）
 
 ### 改进

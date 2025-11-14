@@ -62,7 +62,7 @@ Spec-Driven: Specs first → Specs drive the entire workflow
 - 🔄 **Dual spec types**:
   - Global specs (000-*): Game vision, worldbuilding, core loop
   - Feature specs (001+): Combat system, equipment system, etc.
-- 🤖 **Claude Code integration**: All commands execute through Claude Code CLI
+- 🤖 **Multiple AI tool support**: Compatible with Claude Code, Codex CLI, and Cursor (zero-cost command reuse via symlinks)
 
 ### Use Cases
 
@@ -95,9 +95,22 @@ GameDesignKit solves three major pain points for game designers:
 
 ### Prerequisites
 
-- [Claude Code CLI](https://docs.claude.com/claude-code) installed
+**Choose an AI coding tool** (pick one):
+
+| Tool | Command Path | Official Link | Description |
+|------|--------------|---------------|-------------|
+| **Claude Code** | `.claude/commands/` | [Documentation](https://docs.claude.com/claude-code) | Anthropic official CLI |
+| **Codex CLI** | `.codex/prompts/` | [GitHub](https://github.com/openai/codex) | OpenAI official CLI |
+| **Cursor** | `.cursor/commands/` | [Website](https://www.cursor.com/) | AI code editor |
+
+**Other requirements**:
 - Git
 - Node.js (optional, for script automation)
+
+**Symlink notes**:
+- `.codex/prompts` and `.cursor/commands` are symlinks pointing to `.claude/commands`
+- All tools share the same command files, zero maintenance cost
+- Windows users need Developer Mode enabled or admin privileges for symlink support
 
 ### Installation
 
