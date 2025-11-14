@@ -7,6 +7,14 @@
 
 ## [未发布]
 
+### 计划功能
+- 命令多语言支持（英文版本）
+- 模板多语言支持（英文版本）
+
+---
+
+## [0.1.1] - 2025-01-14
+
 ### 新增功能
 
 - **Windows PowerShell 支持** - 完整的跨平台脚本支持
@@ -40,9 +48,12 @@
   - 基于相同 short-name 的最高编号自动递增，防止编号冲突
   - 同步 Speckit v0.0.79 改进
 
-### 计划功能
-- 命令多语言支持（英文版本）
-- 模板多语言支持（英文版本）
+- **命令文件跨平台优化** - 所有命令支持 OS 检测
+  - 6个命令文件（specify/plan/tasks/implement/analyze/clarify）添加操作系统检测
+  - Windows 自动调用 PowerShell 脚本（PascalCase 参数风格）
+  - Linux/MacOS 自动调用 Bash 脚本（kebab-case 参数风格）
+  - 路径分隔符自动适配（Windows `\` vs Unix `/`）
+  - AI 根据操作系统无缝选择正确的脚本执行
 
 ---
 
@@ -169,5 +180,6 @@
 
 ## 版本历史
 
-[未发布]: https://github.com/yourusername/game.designkit/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/yourusername/game.designkit/releases/tag/v0.1.0
+[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/zhing2006/game.designkit/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/zhing2006/game.designkit/releases/tag/v0.1.0
