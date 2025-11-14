@@ -82,22 +82,26 @@ b) 默认行为：
    如果 spec_type == "global"：
    - 跳过此步骤（全局 spec 始终使用 000）
 
-   e. 读取 `.game.design/memory/pillars.md` 文件：
-   - 如果文件不存在：
-     ERROR "未找到 pillars.md，建议先运行 /game.designkit.pillars 创建设计支柱"
-     结束，不再执行后续步骤
-   - 如果文件存在：
-     读取并理解其内容
+2.5. **前置文档读取** （仅功能型 spec）
 
-   f. 如果是 feature 型规范，查看 000 global 型规范 是否已经存在
-   - 如果存在：则读取其中的文件内容，确认 000 global 型规范的产出文件有哪些
-     - 如果产出文件存在：读取并理解其内容
-     - 如果产出文件不存再：通过 000 global 型规范内容推断世界观和设计愿景
-   - 如果不存在：
-     ERROR "未找到 global 型规范，建议先运行 /game.designkit.specify 创建世界观和设计愿景规范"
-     结束，不再执行后续步骤
+   如果 spec_type == "feature"：
 
-3. 运行脚本创建 spec 目录和文件：
+   a. 读取 `.game.design/memory/pillars.md` 文件：
+      - 如果文件不存在：
+        ERROR "未找到 pillars.md，建议先运行 /game.designkit.pillars 创建设计支柱"
+        结束，不再执行后续步骤
+      - 如果文件存在：
+        读取并理解其内容
+
+   b. 查看 000 global 型规范 是否已经存在
+      - 如果存在：则读取其中的文件内容，确认 000 global 型规范的产出文件有哪些
+         - 如果产出文件存在：读取并理解其内容
+         - 如果产出文件不存再：通过 000 global 型规范内容推断世界观和设计愿景
+      - 如果不存在：
+        ERROR "未找到 global 型规范，建议先运行 /game.designkit.specify 创建世界观和设计愿景规范"
+        结束，不再执行后续步骤
+
+1. 运行脚本创建 spec 目录和文件：
 
    **功能型 spec**：
    Windows:
@@ -131,11 +135,11 @@ b) 默认行为：
      - 全局型：`{"BRANCH_NAME":"000-game-vision","SPEC_FILE":"/path/to/gamedesigns/000-game-vision/spec.md","FEATURE_NUM":"000","SPEC_TYPE":"global"}`
      - 功能型：`{"BRANCH_NAME":"003-combat-system","SPEC_FILE":"/path/to/gamedesigns/003-combat-system/spec.md","FEATURE_NUM":"003","SPEC_TYPE":"feature"}`
 
-4. 根据 SPEC_TYPE 加载对应的规范模板：
+2. 根据 SPEC_TYPE 加载对应的规范模板：
    - 如果 SPEC_TYPE == "global" → 加载 `.game.design/templates/spec-template-global.md`
    - 如果 SPEC_TYPE == "feature" → 加载 `.game.design/templates/spec-template-feature.md`
 
-5. 执行以下 NLP 提取流程：
+3. 执行以下 NLP 提取流程：
 
    1. 解析用户描述
       如果为空：ERROR "未提供游戏或功能描述"
@@ -185,9 +189,9 @@ b) 默认行为：
 
    8. 返回：SUCCESS（规范准备好进入 planning）
 
-6. 将规范写入 SPEC_FILE，使用模板结构，用从功能描述提取的具体细节替换占位符，同时保持章节顺序和标题。
+4. 将规范写入 SPEC_FILE，使用模板结构，用从功能描述提取的具体细节替换占位符，同时保持章节顺序和标题。
 
-7. **规范质量验证**：写入初始规范后，根据质量标准进行验证：
+5. **规范质量验证**：写入初始规范后，根据质量标准进行验证：
 
    a. **创建规范质量检查清单**：在 `FEATURE_DIR/checklists/requirements.md` 生成检查清单文件，包含以下验证项：
 
