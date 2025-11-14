@@ -13,6 +13,24 @@
 
 ---
 
+## [0.1.2] - 2025-01-14
+
+### 改进
+
+- **`/game.designkit.specify` 命令增强** - 多次迭代优化规范文件读取
+  - 改进全局规范文件（000-*）的读取逻辑，优化对游戏愿景和核心循环文档的支持
+  - 重新组织执行步骤顺序，提升命令执行的逻辑清晰度
+  - 添加步骤 2.5：在生成规范前，先读取并分析所有相关的全局规范文档
+  - 将步骤 4.a 和 4.b（依赖分析和术语映射）移至步骤 2，提前进行上下文分析
+  - 优化 000-* 全局规范文件的识别和读取策略
+
+### 修复
+
+- **PowerShell 路径格式** - 修正 Windows PowerShell 脚本中的路径分隔符
+  - 将 PowerShell 脚本中的反斜杠 `\` 改为正斜杠 `/`，提升跨平台兼容性
+
+---
+
 ## [0.1.1] - 2025-01-14
 
 ### 新增功能
@@ -180,6 +198,7 @@
 
 ## 版本历史
 
-[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.1...HEAD
+[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/zhing2006/game.designkit/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/zhing2006/game.designkit/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/zhing2006/game.designkit/releases/tag/v0.1.0
