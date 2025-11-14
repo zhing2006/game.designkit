@@ -87,7 +87,7 @@ b) 默认行为：
    **功能型 spec**：
    Windows:
    ```powershell
-   .game.design\scripts\powershell\create-new-feature.ps1 -Json -Type feature -Number <BRANCH_NUMBER> -ShortName "<生成的短名称>" "$ARGUMENTS"
+   .game.design/scripts/powershell/create-new-feature.ps1 -Json -Type feature -Number <BRANCH_NUMBER> -ShortName "<生成的短名称>" "$ARGUMENTS"
    ```
    Linux or MacOS:
    ```bash
@@ -97,7 +97,7 @@ b) 默认行为：
    **全局型 spec**：
    Windows:
    ```powershell
-   .game.design\scripts\powershell\create-new-feature.ps1 -Json -Type global -ShortName "<生成的短名称>" "$ARGUMENTS"
+   .game.design/scripts/powershell/create-new-feature.ps1 -Json -Type global -ShortName "<生成的短名称>" "$ARGUMENTS"
    ```
    Linux or MacOS:
    ```bash
