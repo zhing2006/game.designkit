@@ -1,10 +1,11 @@
 # Exclude everything in .claude except commands
 .claude/*
 !.claude/commands/
+!.claude/commands
 
 # Exclude everything in .codex except prompts
 .codex/*
-!.codex/prompts/
+!.codex/prompts
 
 # MCP files
 .mcp.json

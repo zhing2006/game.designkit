@@ -7,6 +7,14 @@
 
 ## [未发布]
 
+### 新增功能
+
+- **Codex CLI 支持** - 通过符号链接复用 Claude Code 命令文件
+  - 添加 `.codex/prompts` 符号链接指向 `.claude/commands`
+  - 所有7个命令文件自动在 Codex CLI 中可用
+  - 零维护成本：修改 `.claude/commands/` 中的文件自动同步到 Codex
+  - 修复 `.gitignore` 规则以正确跟踪符号链接（去掉尾部斜杠）
+
 ### 改进
 
 - **`create-new-feature.sh`** - 增强分支编号管理，避免多人协作冲突
@@ -17,6 +25,7 @@
   - 同步 Speckit v0.0.79 改进
 
 ### 计划功能
+- Windows Power Shell 支持
 - 命令多语言支持（英文版本）
 - 模板多语言支持（英文版本）
 
