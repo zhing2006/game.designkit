@@ -57,28 +57,26 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 **输出**：research.md，所有 NEEDS CLARIFICATION 已解决
 
-### Phase 1: 产物规划（在 plan.md 中定义，不实际生成）
+### Phase 1: 设计框架与产物规划
 
 **前置条件**：`research.md` 完成
 
-**重要**：Phase 1 是**规划产物**，在 plan.md 中定义需要哪些文档，但**不实际生成这些文档**。实际文档编写将在 Phase 2（implement 命令）中完成。
-
-1. **识别设计产物类型**（规划，不生成）：
+1. **识别设计产物类型**（从游戏规范中）：
    - 判断规范类型（从 BRANCH 或 SPECS_DIR 提取编号，000-* 为全局型，001+ 为功能型）
    - 分析 spec.md 所定义的内容和需求
-   - **全局型规范（000-*）**：识别需要的全局设计文档
-     - 如定义游戏愿景和目标 → 规划 game-vision.md（不生成）
-     - 如定义核心玩法循环 → 规划 core-loop.md（不生成）
-     - 如定义世界观和背景设定 → 规划 world-setting.md（不生成）
-     - 如定义体验节奏 → 规划 emotional-curve.md（不生成）
-   - **功能型规范（001+）**：识别需要的功能设计文档
-     - 如定义玩法机制和操作 → 规划 gameplay-design.md（不生成）
-     - 如定义数值系统和公式 → 规划 numerical-framework.md（不生成）
-     - 如涉及多系统交互 → 规划 system-integration.md（不生成）
-     - 如涉及难度和奖励设计 → 规划 balance-analysis.md（不生成）
-   - **在 plan.md 中定义每个产物**：目的、结构、内容来源、输出路径（规划文档，不生成文件）
+   - **全局型规范（000-*）**：根据定义的内容识别需要的全局设计文档
+     - 如定义游戏愿景和目标 → game-vision.md
+     - 如定义核心玩法循环 → core-loop.md
+     - 如定义世界观和背景设定 → world-setting.md
+     - 如定义体验节奏 → emotional-curve.md
+   - **功能型规范（001+）**：根据定义的功能需求识别需要的功能设计文档
+     - 如定义玩法机制和操作 → gameplay-design.md
+     - 如定义数值系统和公式 → numerical-framework.md
+     - 如涉及多系统交互 → system-integration.md
+     - 如涉及难度和奖励设计 → balance-analysis.md
+   - 输出设计产物清单到 plan.md
 
-2. **生成设计支柱对齐验证**（在 plan.md 中）：
+2. **生成设计支柱对齐验证**：
    - 读取 `.game.design/memory/pillars.md`（如果存在）
    - 在 plan.md 中生成"设计支柱对齐验证"章节
    - 包含对齐度表格：设计支柱 / 本设计的体现 / 对齐度 / 潜在冲突
@@ -87,9 +85,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - 创建 `quickstart.md`
    - 说明如何使用本计划进行设计工作
 
-**输出**：设计产物规划（在 plan.md 中定义）、设计支柱对齐验证（在 plan.md 中）、quickstart.md
-
-**Phase 1 不输出**：gameplay-design.md、numerical-framework.md 等实际策划案文档（这些由 tasks 命令安排，implement 命令编写）
+**输出**：设计产物清单（在 plan.md 中）、设计支柱对齐验证、quickstart.md
 
 ## 关键规则
 
