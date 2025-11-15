@@ -13,6 +13,26 @@
 
 ---
 
+## [0.1.3] - 2025-01-15
+
+### 改进
+
+- **`/game.designkit.plan` 命令优化** - 澄清 Phase 1 设计产物规划流程
+  - 明确 Phase 1 是**规划产物**而非实际生成文档
+  - 强调在 plan.md 中定义产物的目的、结构、内容来源和输出路径
+  - 实际策划案文档（gameplay-design.md、numerical-framework.md 等）由 tasks 命令安排，implement 命令编写
+  - 提升命令责任边界清晰度，避免规划与执行阶段混淆
+
+### 修复
+
+- **跨平台换行符规范化** - 确保所有文本文件使用一致的换行符
+  - 添加 `.gitattributes` 文件配置 LF 换行符为标准格式
+  - 禁用 Git autocrlf 配置，避免 Windows/Linux/MacOS 跨平台差异
+  - 应用换行符规范化到所有命令文件（analyze/clarify/implement/plan/specify/tasks）
+  - 确保 Shell 脚本（.sh）和 PowerShell 文件（.ps1）在所有平台正常执行
+
+---
+
 ## [0.1.2] - 2025-01-14
 
 ### 改进
@@ -198,7 +218,8 @@
 
 ## 版本历史
 
-[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.2...HEAD
+[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/zhing2006/game.designkit/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/zhing2006/game.designkit/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/zhing2006/game.designkit/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/zhing2006/game.designkit/releases/tag/v0.1.0
