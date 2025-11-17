@@ -1,5 +1,9 @@
 ---
 description: 识别游戏规范中未明确的领域，通过最多5个高度针对性的澄清问题并将答案编码回规范
+handoffs:
+  - label: 制定策划案编写计划
+    agent: game.designkit.plan
+    prompt: 为该规范创建执行计划。我正在构建...
 ---
 
 ## 用户输入

@@ -1,5 +1,10 @@
 ---
 description: 从游戏规范生成游戏设计方案计划，包含设计决策、设计框架文档和设计产物清单
+handoffs:
+  - label: 创建任务
+    agent: game.designkit.tasks
+    prompt: 把计划拆解为任务
+    send: true
 ---
 
 ## User Input

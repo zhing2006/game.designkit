@@ -1,5 +1,13 @@
 ---
 description: 从自然语言描述创建或更新游戏规范文档（游戏愿景或功能系统）
+handoffs:
+  - label: 制定策划案编写计划
+    agent: game.designkit.plan
+    prompt: 为该规范创建执行计划。我正在构建...
+  - label: 澄清规范需求
+    agent: game.designkit.clarify
+    prompt: 澄清规范需求
+    send: true
 ---
 
 ## 用户输入

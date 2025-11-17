@@ -13,6 +13,31 @@
 
 ---
 
+## [0.1.4] - 2025-01-17
+
+### 新增功能
+
+- **命令工作流切换（Handoffs）** - 添加命令间无缝切换支持
+  - `/game.designkit.pillars` 可切换到 `specify`（构造规范）
+  - `/game.designkit.specify` 可切换到 `clarify`（澄清需求）或 `plan`（制定计划）
+  - `/game.designkit.clarify` 可切换到 `plan`（制定计划）
+  - `/game.designkit.plan` 可切换到 `tasks`（创建任务）
+  - `/game.designkit.tasks` 可切换到 `implement`（编写文档）或 `analyze`（分析一致性）
+  - 优化工作流体验，减少用户手动切换命令的步骤
+
+### 改进
+
+- **`create-new-feature` 脚本代码重构** - 同步 Speckit v0.0.85 改进
+  - 新增 `get_highest_from_specs()` / `Get-HighestNumberFromSpecs` 函数：从 gamedesigns 目录提取最高编号（跳过 000）
+  - 新增 `get_highest_from_branches()` / `Get-HighestNumberFromBranches` 函数：从所有 git 分支获取最高编号
+  - 新增 `clean_branch_name()` / `ConvertTo-CleanBranchName` 函数：统一分支名称清理逻辑
+  - 修复 `SCRIPT_DIR` 设置：添加 `CDPATH=""` 防止路径解析错误
+  - 修改 `check_existing_branches()` / `Get-NextBranchNumber` 函数：添加 `gamedesigns_dir` 参数以支持目录路径传递
+  - 重构内联逻辑为可复用函数，提高代码可维护性和可测试性
+  - Bash 和 PowerShell 脚本保持一致的代码结构
+
+---
+
 ## [0.1.3] - 2025-01-15
 
 ### 改进
@@ -218,7 +243,8 @@
 
 ## 版本历史
 
-[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.3...HEAD
+[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.4...HEAD
+[0.1.4]: https://github.com/zhing2006/game.designkit/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/zhing2006/game.designkit/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/zhing2006/game.designkit/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/zhing2006/game.designkit/compare/v0.1.0...v0.1.1

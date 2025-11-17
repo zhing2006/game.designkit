@@ -104,9 +104,57 @@ find_repo_root() {
     return 1
 }
 
+# Function to get highest number from gamedesigns directory
+get_highest_from_specs() {
+    local gamedesigns_dir="$1"
+    local highest=0
+
+    if [ -d "$gamedesigns_dir" ]; then
+        for dir in "$gamedesigns_dir"/*; do
+            [ -d "$dir" ] || continue
+            dirname=$(basename "$dir")
+            number=$(echo "$dirname" | grep -o '^[0-9]\+' || echo "0")
+            number=$((10#$number))
+            # Skip 000 (global spec) and find highest feature number
+            if [ "$number" -gt 0 ] && [ "$number" -gt "$highest" ]; then
+                highest=$number
+            fi
+        done
+    fi
+
+    echo "$highest"
+}
+
+# Function to get highest number from git branches
+get_highest_from_branches() {
+    local highest=0
+
+    # Get all branches (local and remote)
+    branches=$(git branch -a 2>/dev/null || echo "")
+
+    if [ -n "$branches" ]; then
+        while IFS= read -r branch; do
+            # Clean branch name: remove leading markers and remote prefixes
+            clean_branch=$(echo "$branch" | sed 's/^[* ]*//; s|^remotes/[^/]*/||')
+
+            # Extract feature number if branch matches pattern ###-*
+            if echo "$clean_branch" | grep -q '^[0-9]\{3\}-'; then
+                number=$(echo "$clean_branch" | grep -o '^[0-9]\{3\}' || echo "0")
+                number=$((10#$number))
+                if [ "$number" -gt "$highest" ]; then
+                    highest=$number
+                fi
+            fi
+        done <<< "$branches"
+    fi
+
+    echo "$highest"
+}
+
 # Function to check existing branches (local and remote) and return next available number
 check_existing_branches() {
     local short_name="$1"
+    local gamedesigns_dir="$2"
 
     # Fetch all remotes to get latest branch info (suppress errors if no remotes)
     git fetch --all --prune 2>/dev/null || true
@@ -119,8 +167,8 @@ check_existing_branches() {
 
     # Check gamedesigns directory as well
     local spec_dirs=""
-    if [ -d "$GAMEDESIGNS_DIR" ]; then
-        spec_dirs=$(find "$GAMEDESIGNS_DIR" -maxdepth 1 -type d -name "[0-9]*-${short_name}" 2>/dev/null | xargs -n1 basename 2>/dev/null | sed 's/-.*//' | sort -n)
+    if [ -d "$gamedesigns_dir" ]; then
+        spec_dirs=$(find "$gamedesigns_dir" -maxdepth 1 -type d -name "[0-9]*-${short_name}" 2>/dev/null | xargs -n1 basename 2>/dev/null | sed 's/-.*//' | sort -n)
     fi
 
     # Combine all sources and get the highest number
@@ -135,10 +183,16 @@ check_existing_branches() {
     echo $((max_num + 1))
 }
 
+# Function to clean and format a branch name
+clean_branch_name() {
+    local name="$1"
+    echo "$name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/-\+/-/g' | sed 's/^-//' | sed 's/-$//'
+}
+
 # Resolve repository root. Prefer git information when available, but fall back
 # to searching for repository markers so the workflow still functions in repositories that
 # were initialised with --no-git.
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(CDPATH="" cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 if git rev-parse --show-toplevel >/dev/null 2>&1; then
     REPO_ROOT=$(git rev-parse --show-toplevel)
@@ -200,14 +254,15 @@ generate_branch_name() {
         echo "$result"
     else
         # Fallback to original logic if no meaningful words found
-        echo "$description" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/-\+/-/g' | sed 's/^-//' | sed 's/-$//' | tr '-' '\n' | grep -v '^$' | head -3 | tr '\n' '-' | sed 's/-$//'
+        local cleaned=$(clean_branch_name "$description")
+        echo "$cleaned" | tr '-' '\n' | grep -v '^$' | head -3 | tr '\n' '-' | sed 's/-$//'
     fi
 }
 
 # Generate branch name
 if [ -n "$SHORT_NAME" ]; then
     # Use provided short name, just clean it up
-    BRANCH_SUFFIX=$(echo "$SHORT_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/-\+/-/g' | sed 's/^-//' | sed 's/-$//')
+    BRANCH_SUFFIX=$(clean_branch_name "$SHORT_NAME")
 else
     # Generate from description with smart filtering
     BRANCH_SUFFIX=$(generate_branch_name "$FEATURE_DESCRIPTION")
@@ -230,22 +285,10 @@ else
         # No manual number specified, auto-detect using BRANCH_SUFFIX
         if [ "$HAS_GIT" = true ]; then
             # Check existing branches on remotes with the same short-name
-            BRANCH_NUMBER=$(check_existing_branches "$BRANCH_SUFFIX")
+            BRANCH_NUMBER=$(check_existing_branches "$BRANCH_SUFFIX" "$GAMEDESIGNS_DIR")
         else
             # Fall back to local directory check
-            HIGHEST=0
-            if [ -d "$GAMEDESIGNS_DIR" ]; then
-                for dir in "$GAMEDESIGNS_DIR"/*; do
-                    [ -d "$dir" ] || continue
-                    dirname=$(basename "$dir")
-                    number=$(echo "$dirname" | grep -o '^[0-9]\+' || echo "0")
-                    number=$((10#$number))
-                    # Skip 000 (global spec) and find highest feature number
-                    if [ "$number" -gt 0 ] && [ "$number" -gt "$HIGHEST" ]; then
-                        HIGHEST=$number
-                    fi
-                done
-            fi
+            HIGHEST=$(get_highest_from_specs "$GAMEDESIGNS_DIR")
             BRANCH_NUMBER=$((HIGHEST + 1))
         fi
     fi

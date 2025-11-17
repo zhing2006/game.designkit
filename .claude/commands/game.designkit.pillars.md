@@ -1,5 +1,9 @@
 ---
 description: 创建或更新游戏设计支柱文档，定义核心设计原则
+handoffs:
+  - label: 构造规范
+    agent: game.designkit.specify
+    prompt: 根据更新的支柱实现全局规范。我想构建...
 ---
 
 ## 用户输入

@@ -1,5 +1,14 @@
 ---
 description: 根据游戏设计方案生成可执行的、按依赖顺序的设计任务分解
+handoffs:
+  - label: 分析一致性
+    agent: game.designkit.analyze
+    prompt: 运行项目一致性分析
+    send: true
+  - label: 编写策划案
+    agent: game.designkit.implement
+    prompt: 开始实现步骤
+    send: true
 ---
 
 ## User Input
