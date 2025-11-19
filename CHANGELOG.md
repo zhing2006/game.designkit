@@ -13,6 +13,19 @@
 
 ---
 
+## [0.1.5] - 2025-01-19
+
+### 新增功能
+
+- **Gemini CLI, Kilo Code 支持** - 通过符号链接复用 Claude Code 命令文件
+  - 添加 `.gemini/commands` 符号链接指向 `.claude/commands`
+  - 添加 `.kilocode/workflows` 符号链接指向 `.claude/commands`
+  - 所有 7 个命令文件自动在 Gemini CLI, Kilo Code 中可用
+  - 零维护成本：修改 `.claude/commands/` 中的文件自动同步
+  - 更新 `.gitignore` 规则以正确跟踪符号链接目录
+
+---
+
 ## [0.1.4] - 2025-01-17
 
 ### 新增功能
@@ -243,7 +256,8 @@
 
 ## 版本历史
 
-[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.4...HEAD
+[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.5...HEAD
+[0.1.5]: https://github.com/zhing2006/game.designkit/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/zhing2006/game.designkit/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/zhing2006/game.designkit/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/zhing2006/game.designkit/compare/v0.1.1...v0.1.2

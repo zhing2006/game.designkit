@@ -13,6 +13,15 @@
 !.cursor/commands/
 !.cursor/commands
 
+# Exclude everything in .gemini except commands
+.gemini/*
+!.gemini/commands/
+!.gemini/commands
+
+# Exclude everything in .kilocode except workflows
+.kilocode/*
+!.kilocode/workflows/
+!.kilocode/workflows
+
 # MCP files
 .mcp.json
-.kilocode/
