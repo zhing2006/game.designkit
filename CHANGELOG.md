@@ -13,6 +13,18 @@
 
 ---
 
+## [0.1.7] - 2025-11-20
+
+### 修复
+
+- **全局规范创建命令参数** - 修复 `specify` 命令创建全局规范时的脚本调用问题
+  - 在调用 `create-new-feature.ps1`/`create-new-feature.sh` 创建全局型 spec 时，添加 `-Number 0`/`--number 0` 参数
+  - 确保全局规范始终使用编号 0（000-* 格式），避免自动递增编号
+  - 修复文件：`.claude/commands/game.designkit.specify.md` 和 `.claude/commands/game.designkit.specify.toml`
+  - 保证全局规范（游戏愿景、核心循环等）的命名一致性
+
+---
+
 ## [0.1.6] - 2025-01-20
 
 ### 修复
@@ -268,7 +280,8 @@
 
 ## 版本历史
 
-[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.6...HEAD
+[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.7...HEAD
+[0.1.7]: https://github.com/zhing2006/game.designkit/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/zhing2006/game.designkit/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/zhing2006/game.designkit/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/zhing2006/game.designkit/compare/v0.1.3...v0.1.4
