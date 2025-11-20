@@ -13,6 +13,18 @@
 
 ---
 
+## [0.1.8] - 2025-11-20
+
+### 修复
+
+- **Gemini CLI tasks 命令格式** - 修复 `game.designkit.tasks.toml` 文件格式问题
+  - 添加标准 TOML 格式字段（`description` 和 `prompt`）
+  - 修正转义语法说明：将 `'I'\''m Groot'` 改为 `'I'\\''m Groot'`（双反斜杠转义）
+  - 确保 Gemini CLI 能正确解析和执行 tasks 命令
+  - 保持与其他命令文件的格式一致性
+
+---
+
 ## [0.1.7] - 2025-11-20
 
 ### 修复
@@ -280,7 +292,8 @@
 
 ## 版本历史
 
-[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.7...HEAD
+[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.8...HEAD
+[0.1.8]: https://github.com/zhing2006/game.designkit/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/zhing2006/game.designkit/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/zhing2006/game.designkit/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/zhing2006/game.designkit/compare/v0.1.4...v0.1.5
