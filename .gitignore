@@ -25,3 +25,6 @@
 
 # MCP files
 .mcp.json
+
+# Exclude spec-kit files
+.claude/commands/speckit*
