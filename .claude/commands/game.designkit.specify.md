@@ -131,11 +131,11 @@ b) 默认行为：
    **全局型 spec**：
    Windows:
    ```powershell
-   .game.design/scripts/powershell/create-new-feature.ps1 -Json -Type global -ShortName "<生成的短名称>" "$ARGUMENTS"
+   .game.design/scripts/powershell/create-new-feature.ps1 -Json -Type global -Number 0 -ShortName "<生成的短名称>" "$ARGUMENTS"
    ```
    Linux or MacOS:
    ```bash
-   .game.design/scripts/bash/create-new-feature.sh --json --type global --short-name "<生成的短名称>" "$ARGUMENTS"
+   .game.design/scripts/bash/create-new-feature.sh --json --type global --number 0 --short-name "<生成的短名称>" "$ARGUMENTS"
    ```
 
    解析 JSON 输出获取 BRANCH_NAME、SPEC_FILE、FEATURE_NUM、SPEC_TYPE。所有文件路径必须为绝对路径。
