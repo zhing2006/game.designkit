@@ -13,6 +13,18 @@
 
 ---
 
+## [0.1.6] - 2025-01-20
+
+### 修复
+
+- **Gemini CLI 命令格式兼容** - 添加 TOML 格式命令文件支持
+  - 为所有 7 个命令添加 `.toml` 格式文件：analyze、clarify、implement、pillars、plan、specify、tasks
+  - 修复 v0.1.5 中 Gemini CLI 无法识别命令的问题（Gemini CLI 要求使用 TOML 格式）
+  - 符号链接 `.gemini/commands` 现在指向包含正确格式的命令文件
+  - 确保 Gemini CLI 能正常加载和执行所有命令
+
+---
+
 ## [0.1.5] - 2025-01-19
 
 ### 新增功能
@@ -256,7 +268,8 @@
 
 ## 版本历史
 
-[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.5...HEAD
+[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.6...HEAD
+[0.1.6]: https://github.com/zhing2006/game.designkit/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/zhing2006/game.designkit/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/zhing2006/game.designkit/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/zhing2006/game.designkit/compare/v0.1.2...v0.1.3
