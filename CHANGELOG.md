@@ -13,6 +13,18 @@
 
 ---
 
+## [0.1.9] - 2025-11-21
+
+### 修复
+
+- **Gemini CLI tasks 命令参数占位符** - 修复 `game.designkit.tasks.toml` 中的参数占位符语法
+  - 将参数占位符从 `$ARGUMENTS` 改为 `{{args}}`（Gemini CLI 标准语法）
+  - 修复2处：用户输入展示区域和任务生成上下文
+  - 确保 Gemini CLI 能正确解析和传递命令参数
+  - 与其他命令文件保持一致的占位符语法
+
+---
+
 ## [0.1.8] - 2025-11-20
 
 ### 修复
@@ -292,7 +304,8 @@
 
 ## 版本历史
 
-[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.8...HEAD
+[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.9...HEAD
+[0.1.9]: https://github.com/zhing2006/game.designkit/compare/v0.1.8...v0.1.9
 [0.1.8]: https://github.com/zhing2006/game.designkit/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/zhing2006/game.designkit/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/zhing2006/game.designkit/compare/v0.1.5...v0.1.6
