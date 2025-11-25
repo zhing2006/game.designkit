@@ -85,7 +85,7 @@ $ARGUMENTS
    - 与既定设计原则的语义冲突
 
    游戏愿景对齐（仅 feature spec）：
-   - 与 game-vision（000-game-vision）体验目标的对齐
+   - 与 game-vision（dk-000-game-vision）体验目标的对齐
    - 对情感曲线的贡献（紧张/放松/高潮阶段）
    - 在核心玩法循环中的位置（输入/过程/奖励/反馈）
 

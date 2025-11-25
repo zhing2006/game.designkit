@@ -113,7 +113,8 @@ get_highest_from_specs() {
         for dir in "$gamedesigns_dir"/*; do
             [ -d "$dir" ] || continue
             dirname=$(basename "$dir")
-            number=$(echo "$dirname" | grep -o '^[0-9]\+' || echo "0")
+            number=$(echo "$dirname" | sed -n 's/^dk-\([0-9]\+\)-.*/\1/p')
+            number=${number:-0}
             number=$((10#$number))
             # Skip 000 (global spec) and find highest feature number
             if [ "$number" -gt 0 ] && [ "$number" -gt "$highest" ]; then
@@ -137,9 +138,10 @@ get_highest_from_branches() {
             # Clean branch name: remove leading markers and remote prefixes
             clean_branch=$(echo "$branch" | sed 's/^[* ]*//; s|^remotes/[^/]*/||')
 
-            # Extract feature number if branch matches pattern ###-*
-            if echo "$clean_branch" | grep -q '^[0-9]\{3\}-'; then
-                number=$(echo "$clean_branch" | grep -o '^[0-9]\{3\}' || echo "0")
+            # Extract feature number if branch matches pattern dk-###-*
+            if echo "$clean_branch" | grep -q '^dk-[0-9]\{3\}-'; then
+                number=$(echo "$clean_branch" | sed -n 's/^dk-\([0-9]\{3\}\)-.*/\1/p')
+                number=${number:-0}
                 number=$((10#$number))
                 if [ "$number" -gt "$highest" ]; then
                     highest=$number
@@ -160,15 +162,15 @@ check_existing_branches() {
     git fetch --all --prune 2>/dev/null || true
 
     # Find all branches matching the pattern using git ls-remote (more reliable)
-    local remote_branches=$(git ls-remote --heads origin 2>/dev/null | grep -E "refs/heads/[0-9]+-${short_name}$" | sed 's/.*\/\([0-9]*\)-.*/\1/' | sort -n)
+    local remote_branches=$(git ls-remote --heads origin 2>/dev/null | grep -E "refs/heads/dk-[0-9]+-${short_name}$" | sed 's/.*\/dk-\([0-9]*\)-.*/\1/' | sort -n)
 
     # Also check local branches
-    local local_branches=$(git branch 2>/dev/null | grep -E "^[* ]*[0-9]+-${short_name}$" | sed 's/^[* ]*//' | sed 's/-.*//' | sort -n)
+    local local_branches=$(git branch 2>/dev/null | grep -E "^[* ]*dk-[0-9]+-${short_name}$" | sed 's/^[* ]*//' | sed 's/^dk-//' | sed 's/-.*//' | sort -n)
 
     # Check gamedesigns directory as well
     local spec_dirs=""
     if [ -d "$gamedesigns_dir" ]; then
-        spec_dirs=$(find "$gamedesigns_dir" -maxdepth 1 -type d -name "[0-9]*-${short_name}" 2>/dev/null | xargs -n1 basename 2>/dev/null | sed 's/-.*//' | sort -n)
+        spec_dirs=$(find "$gamedesigns_dir" -maxdepth 1 -type d -name "dk-[0-9]*-${short_name}" 2>/dev/null | xargs -n1 basename 2>/dev/null | sed 's/^dk-//' | sed 's/-.*//' | sort -n)
     fi
 
     # Combine all sources and get the highest number
@@ -271,10 +273,10 @@ fi
 # Feature number assignment logic based on spec type
 if [ "$SPEC_TYPE" == "global" ]; then
     # Global spec: Force 000, check if already exists
-    existing_global=$(find "$GAMEDESIGNS_DIR" -maxdepth 1 -type d -name "000-*" 2>/dev/null | head -1)
+    existing_global=$(find "$GAMEDESIGNS_DIR" -maxdepth 1 -type d -name "dk-000-*" 2>/dev/null | head -1)
     if [ -n "$existing_global" ]; then
         echo "Error: Global spec already exists: $(basename "$existing_global")" >&2
-        echo "A project can only have one global spec (000-*)." >&2
+        echo "A project can only have one global spec (dk-000-*)." >&2
         echo "To create a feature spec, use --type feature" >&2
         exit 1
     fi
@@ -296,16 +298,16 @@ else
     FEATURE_NUM=$(printf "%03d" "$BRANCH_NUMBER")
 fi
 
-# Now construct the full branch name with feature number
-BRANCH_NAME="${FEATURE_NUM}-${BRANCH_SUFFIX}"
+# Now construct the full branch name with feature number and dk- prefix
+BRANCH_NAME="dk-${FEATURE_NUM}-${BRANCH_SUFFIX}"
 
 # GitHub enforces a 244-byte limit on branch names
 # Validate and truncate if necessary
 MAX_BRANCH_LENGTH=244
 if [ ${#BRANCH_NAME} -gt $MAX_BRANCH_LENGTH ]; then
     # Calculate how much we need to trim from suffix
-    # Account for: feature number (3) + hyphen (1) = 4 chars
-    MAX_SUFFIX_LENGTH=$((MAX_BRANCH_LENGTH - 4))
+    # Account for: dk- prefix (3) + feature number (3) + hyphen (1) = 7 chars
+    MAX_SUFFIX_LENGTH=$((MAX_BRANCH_LENGTH - 7))
 
     # Truncate suffix at word boundary if possible
     TRUNCATED_SUFFIX=$(echo "$BRANCH_SUFFIX" | cut -c1-$MAX_SUFFIX_LENGTH)
@@ -313,7 +315,7 @@ if [ ${#BRANCH_NAME} -gt $MAX_BRANCH_LENGTH ]; then
     TRUNCATED_SUFFIX=$(echo "$TRUNCATED_SUFFIX" | sed 's/-$//')
 
     ORIGINAL_BRANCH_NAME="$BRANCH_NAME"
-    BRANCH_NAME="${FEATURE_NUM}-${TRUNCATED_SUFFIX}"
+    BRANCH_NAME="dk-${FEATURE_NUM}-${TRUNCATED_SUFFIX}"
 
     >&2 echo "[game.designkit] Warning: Branch name exceeded GitHub's 244-byte limit"
     >&2 echo "[game.designkit] Original: $ORIGINAL_BRANCH_NAME (${#ORIGINAL_BRANCH_NAME} bytes)"

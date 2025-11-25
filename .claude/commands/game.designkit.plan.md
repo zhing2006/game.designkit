@@ -67,9 +67,9 @@ You **MUST** consider the user input before proceeding (if not empty).
 **前置条件**：`research.md` 完成
 
 1. **识别设计产物类型**（从游戏规范中）：
-   - 判断规范类型（从 BRANCH 或 SPECS_DIR 提取编号，000-* 为全局型，001+ 为功能型）
+   - 判断规范类型（从 BRANCH 或 SPECS_DIR 提取编号，dk-000-* 为全局型，dk-001+ 为功能型）
    - 分析 spec.md 所定义的内容和需求
-   - **全局型规范（000-*）**：根据定义的内容识别需要的全局设计文档
+   - **全局型规范（dk-000-*）**：根据定义的内容识别需要的全局设计文档
      - 如定义游戏愿景和目标 → game-vision.md
      - 如定义核心玩法循环 → core-loop.md
      - 如定义世界观和背景设定 → world-setting.md

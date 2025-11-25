@@ -4,7 +4,7 @@ description: "功能实施的任务列表模板"
 
 # 任务：[功能名称]
 
-**输入**：来自 `/gamedesigns/[###-feature-name]/` 的设计文档
+**输入**：来自 `/gamedesigns/[dk-###-feature-name]/` 的设计文档
 **前置条件**：plan.md（必需）、spec.md（用户故事必需）、research.md、quickstart.md
 
 **注意**：游戏策划工作通过实际使用验证，不生成测试代码任务。
@@ -17,7 +17,7 @@ description: "功能实施的任务列表模板"
 - 在描述中包含确切的文件路径
 
 ## 路径约定
-- **工作流文档**：`gamedesigns/[###-feature]/` （spec.md、plan.md、tasks.md）
+- **工作流文档**：`gamedesigns/[dk-###-feature]/` （spec.md、plan.md、tasks.md）
 - **设计文档输出**：`docs/[feature-name]/` （gameplay-design.md、numerical-framework.md 等）
 - 下面显示的路径根据 plan.md 的设计产物清单调整
 

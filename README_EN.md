@@ -60,8 +60,8 @@ Spec-Driven: Specs first → Specs drive the entire workflow
 - 📝 **Generates design documents**: Outputs gameplay design, numerical frameworks, balance analysis (not code)
 - 🎯 **Design pillar-driven**: Uses Design Pillars instead of technical constraints
 - 🔄 **Dual spec types**:
-  - Global specs (000-*): Game vision, worldbuilding, core loop
-  - Feature specs (001+): Combat system, equipment system, etc.
+  - Global specs (dk-000-*): Game vision, worldbuilding, core loop
+  - Feature specs (dk-001+): Combat system, equipment system, etc.
 - 🤖 **Multiple AI tool support**: Compatible with Claude Code, Codex CLI, and Cursor (zero-cost command reuse via symlinks)
 
 ### Use Cases
@@ -153,12 +153,12 @@ AI generates `.game.design/memory/pillars.md`.
 Input feature description:
 
 ```
-001-Combat System
+dk-001-Combat System
 Player draws 5 cards per turn, spends energy to play cards, defeats enemies.
 Supports card upgrades, relic effects, elemental reactions.
 ```
 
-Generates `gamedesigns/001-combat-system/spec.md`.
+Generates `gamedesigns/dk-001-combat-system/spec.md`.
 
 #### Step 3: Clarify Ambiguities
 
@@ -234,8 +234,8 @@ decision windows are short, players stay highly focused
 
 | Type | Numbering | Content | Example |
 |------|-----------|---------|---------|
-| **Global Spec** | `000-*` | Game vision, worldbuilding, core loop, emotional curve | `000-game-vision.md` |
-| **Feature Spec** | `001+` | Specific systems (combat, equipment, dialogue, etc.) | `001-combat-system.md` |
+| **Global Spec** | `dk-000-*` | Game vision, worldbuilding, core loop, emotional curve | `dk-000-game-vision.md` |
+| **Feature Spec** | `dk-001+` | Specific systems (combat, equipment, dialogue, etc.) | `dk-001-combat-system.md` |
 
 ### 3. File Organization
 
@@ -247,17 +247,17 @@ game.designkit/
 │   └── templates/                  # Spec templates
 │
 ├── gamedesigns/                     # Working directory
-│   ├── 000-game-vision/            # Global spec
+│   ├── dk-000-game-vision/            # Global spec
 │   │   ├── spec.md
 │   │   ├── plan.md
 │   │   └── ...
-│   ├── 001-combat-system/          # Feature spec
+│   ├── dk-001-combat-system/          # Feature spec
 │   │   ├── spec.md                 # Input: Feature specification
 │   │   ├── plan.md                 # Design plan
 │   │   ├── research.md             # Design decisions
 │   │   ├── tasks.md                # Task breakdown
 │   │   └── checklists/             # Quality checklists
-│   └── 002-equipment-system/
+│   └── dk-002-equipment-system/
 │
 └── docs/                            # Final output
     ├── combat-system/
@@ -287,7 +287,7 @@ graph LR
 | Command | Function | Input | Output |
 |---------|----------|-------|--------|
 | `/game.designkit.pillars` | Create/update design pillars | Natural language description of core principles | `.game.design/memory/pillars.md` |
-| `/game.designkit.specify` | Write game/feature spec | Feature description or game vision | `gamedesigns/###-name/spec.md` |
+| `/game.designkit.specify` | Write game/feature spec | Feature description or game vision | `gamedesigns/dk-###-name/spec.md` |
 | `/game.designkit.clarify` | Identify and resolve ambiguities | Existing spec.md | Updated spec.md (with clarification answers) |
 | `/game.designkit.plan` | Generate design plan | spec.md | plan.md + research.md + quickstart.md |
 | `/game.designkit.tasks` | Break down design tasks | plan.md | tasks.md (organized by user story) |
@@ -388,7 +388,7 @@ Speckit is GitHub's open-source "spec-driven development" toolkit, originally fo
 |-----------|--------------------------------|-----------------------------|
 | **Output** | Source code, APIs, data models | Design docs (gameplay, numbers, balance) |
 | **Principle System** | Project Constitution (technical constraints) | Design Pillars (creative principles) |
-| **Spec Types** | Single type | Dual types (global 000-* / feature 001+) |
+| **Spec Types** | Single type | Dual types (global dk-000-* / feature dk-001+) |
 | **Validation** | Automated tests | Document completeness + pillar alignment |
 | **Domain** | Technical implementation | Experience design |
 | **Language** | English | Chinese |
@@ -417,7 +417,7 @@ Thanks to GitHub's Speckit team for providing an excellent foundational framewor
 > creates tense gambling feel. Needs to integrate with combat system,
 > enhanced equipment affects combat strategy."
 
-# Output: gamedesigns/002-equipment-enhance/spec.md
+# Output: gamedesigns/dk-002-equipment-enhance/spec.md
 
 # 3. Clarify ambiguities
 /game.designkit.clarify
@@ -439,7 +439,7 @@ Thanks to GitHub's Speckit team for providing an excellent foundational framewor
 /game.designkit.analyze
 # Check:
 #   - Does it conflict with "Satisfying Feel" pillar? (Failure downgrade might be too frustrating)
-#   - Does it match numerical ranges of 001-Combat System?
+#   - Does it match numerical ranges of dk-001-Combat System?
 
 # 7. Execute design
 /game.designkit.implement

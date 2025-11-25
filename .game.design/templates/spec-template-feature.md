@@ -5,7 +5,7 @@
 <!-- Last AI Update: YYYY-MM-DDTHH:MM:SSZ -->
 
 **类型**：功能型（Feature Spec）
-**功能分支**：`[###-feature-name]`
+**功能分支**：`[dk-###-feature-name]`
 **创建时间**：[日期]
 **状态**：草稿
 **输入**：用户描述："$ARGUMENTS"
@@ -14,13 +14,13 @@
 
 <!--
   IMPORTANT: Clearly list other specs this feature depends on to ensure design consistency.
-  At minimum, should depend on the global spec (000-game-vision).
+  At minimum, should depend on the global spec (dk-000-game-vision).
   If depending on other feature specs, list them explicitly as well.
 -->
 
 本功能依赖以下 spec：
 
-- **gamedesigns/000-game-vision**: [引用的具体内容，例如："世界观的科技设定（后启示录科技）" 或 "核心玩法循环中的战斗环节"]
+- **gamedesigns/dk-000-game-vision**: [引用的具体内容，例如："世界观的科技设定（后启示录科技）" 或 "核心玩法循环中的战斗环节"]
 - **gamedesigns/[其他依赖]**: [引用内容]
 
 <!--
@@ -54,7 +54,7 @@
 ## 功能世界观 (Feature World) *(必填)*
 
 <!--
-  Describe this feature's positioning in the game world, ensure consistency with global world (000-game-vision).
+  Describe this feature's positioning in the game world, ensure consistency with global world (dk-000-game-vision).
 -->
 
 ### 世界观定位

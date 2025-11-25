@@ -69,7 +69,7 @@ function Get-HighestNumberFromSpecs {
     $highest = 0
     if (Test-Path $GameDesignsDir) {
         Get-ChildItem -Path $GameDesignsDir -Directory | ForEach-Object {
-            if ($_.Name -match '^(\d+)') {
+            if ($_.Name -match '^dk-(\d+)') {
                 $num = [int]$matches[1]
                 # Skip 000 (global spec) and find highest feature number
                 if ($num -gt 0 -and $num -gt $highest) {
@@ -92,8 +92,8 @@ function Get-HighestNumberFromBranches {
                 # Clean branch name: remove leading markers and remote prefixes
                 $cleanBranch = $branch.Trim() -replace '^\*?\s+', '' -replace '^remotes/[^/]+/', ''
 
-                # Extract feature number if branch matches pattern ###-*
-                if ($cleanBranch -match '^(\d+)-') {
+                # Extract feature number if branch matches pattern dk-###-*
+                if ($cleanBranch -match '^dk-(\d+)-') {
                     $num = [int]$matches[1]
                     if ($num -gt $highest) { $highest = $num }
                 }
@@ -124,8 +124,8 @@ function Get-NextBranchNumber {
     try {
         $remoteRefs = git ls-remote --heads origin 2>$null
         if ($remoteRefs) {
-            $remoteBranches = $remoteRefs | Where-Object { $_ -match "refs/heads/(\d+)-$([regex]::Escape($ShortName))$" } | ForEach-Object {
-                if ($_ -match "refs/heads/(\d+)-") {
+            $remoteBranches = $remoteRefs | Where-Object { $_ -match "refs/heads/dk-(\d+)-$([regex]::Escape($ShortName))$" } | ForEach-Object {
+                if ($_ -match "refs/heads/dk-(\d+)-") {
                     [int]$matches[1]
                 }
             }
@@ -139,8 +139,8 @@ function Get-NextBranchNumber {
     try {
         $allBranches = git branch 2>$null
         if ($allBranches) {
-            $localBranches = $allBranches | Where-Object { $_ -match "^\*?\s*(\d+)-$([regex]::Escape($ShortName))$" } | ForEach-Object {
-                if ($_ -match "(\d+)-") {
+            $localBranches = $allBranches | Where-Object { $_ -match "^\*?\s*dk-(\d+)-$([regex]::Escape($ShortName))$" } | ForEach-Object {
+                if ($_ -match "dk-(\d+)-") {
                     [int]$matches[1]
                 }
             }
@@ -153,8 +153,8 @@ function Get-NextBranchNumber {
     $specDirs = @()
     if (Test-Path $GameDesignsDir) {
         try {
-            $specDirs = Get-ChildItem -Path $GameDesignsDir -Directory | Where-Object { $_.Name -match "^(\d+)-$([regex]::Escape($ShortName))$" } | ForEach-Object {
-                if ($_.Name -match "^(\d+)-") {
+            $specDirs = Get-ChildItem -Path $GameDesignsDir -Directory | Where-Object { $_.Name -match "^dk-(\d+)-$([regex]::Escape($ShortName))$" } | ForEach-Object {
+                if ($_.Name -match "^dk-(\d+)-") {
                     [int]$matches[1]
                 }
             }
@@ -260,10 +260,10 @@ if ($ShortName) {
 # Feature number assignment logic based on spec type
 if ($Type -eq 'global') {
     # Global spec: Force 000, check if already exists
-    $existingGlobal = Get-ChildItem -Path $gameDesignsDir -Directory -Filter '000-*' -ErrorAction SilentlyContinue | Select-Object -First 1
+    $existingGlobal = Get-ChildItem -Path $gameDesignsDir -Directory -Filter 'dk-000-*' -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($existingGlobal) {
         Write-Error "Error: Global spec already exists: $($existingGlobal.Name)"
-        Write-Error "A project can only have one global spec (000-*)."
+        Write-Error "A project can only have one global spec (dk-000-*)."
         Write-Error "To create a feature spec, use -Type feature"
         exit 1
     }
@@ -282,15 +282,15 @@ if ($Type -eq 'global') {
     }
     $featureNum = ('{0:000}' -f $Number)
 }
-$branchName = "$featureNum-$branchSuffix"
+$branchName = "dk-$featureNum-$branchSuffix"
 
 # GitHub enforces a 244-byte limit on branch names
 # Validate and truncate if necessary
 $maxBranchLength = 244
 if ($branchName.Length -gt $maxBranchLength) {
     # Calculate how much we need to trim from suffix
-    # Account for: feature number (3) + hyphen (1) = 4 chars
-    $maxSuffixLength = $maxBranchLength - 4
+    # Account for: dk- prefix (3) + feature number (3) + hyphen (1) = 7 chars
+    $maxSuffixLength = $maxBranchLength - 7
 
     # Truncate suffix
     $truncatedSuffix = $branchSuffix.Substring(0, [Math]::Min($branchSuffix.Length, $maxSuffixLength))
@@ -298,7 +298,7 @@ if ($branchName.Length -gt $maxBranchLength) {
     $truncatedSuffix = $truncatedSuffix -replace '-$', ''
 
     $originalBranchName = $branchName
-    $branchName = "$featureNum-$truncatedSuffix"
+    $branchName = "dk-$featureNum-$truncatedSuffix"
 
     Write-Warning "[game.designkit] Branch name exceeded GitHub's 244-byte limit"
     Write-Warning "[game.designkit] Original: $originalBranchName ($($originalBranchName.Length) bytes)"

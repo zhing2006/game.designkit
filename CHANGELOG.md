@@ -13,6 +13,53 @@
 
 ---
 
+## [0.2.0] - 2025-11-25
+
+### 破坏性变更
+
+- **分支/目录命名规范变更** - 添加 `dk-` 前缀以避免与 Speckit 冲突
+  - 旧格式：`000-game-vision`, `001-combat-system`
+  - 新格式：`dk-000-game-vision`, `dk-001-combat-system`
+  - 更新所有脚本中的正则表达式匹配模式（`^([0-9]{3})-` → `^dk-([0-9]{3})-`）
+  - 更新分支名称构造逻辑（7 字符前缀：`dk-` + 编号 + `-`）
+  - 更新全局规范目录过滤器（`000-*` → `dk-000-*`）
+
+### 修改的文件
+
+- **Bash 脚本**
+  - `.game.design/scripts/bash/common.sh` - 正则表达式和分支验证
+  - `.game.design/scripts/bash/create-new-feature.sh` - 分支名构造和全局规范检测
+
+- **PowerShell 脚本**
+  - `.game.design/scripts/powershell/common.ps1` - 正则表达式和分支验证
+  - `.game.design/scripts/powershell/create-new-feature.ps1` - 分支名构造和全局规范检测
+
+- **命令文件**
+  - `.claude/commands/*.md` - 所有命令中的路径和示例更新
+  - `.gemini/commands/*.toml` - 所有 TOML 格式命令更新
+
+- **模板文件**
+  - `.game.design/templates/spec-template-global.md` - 分支占位符和依赖引用
+  - `.game.design/templates/spec-template-feature.md` - 分支占位符和依赖引用
+  - `.game.design/templates/plan-template.md` - 路径约定和规范类型标签
+  - `.game.design/templates/tasks-template.md` - 路径约定
+
+- **文档**
+  - `README.md` - 双类型规范描述、目录结构、命令输出、工作流示例
+  - `README_EN.md` - 英文版对应更新
+  - `CLAUDE.md` - 规范类型和目录结构描述
+
+### 迁移指南
+
+如果您有现有的 gamedesigns 目录，需要手动重命名：
+```bash
+# 示例：重命名现有目录
+mv gamedesigns/000-game-vision gamedesigns/dk-000-game-vision
+mv gamedesigns/001-combat-system gamedesigns/dk-001-combat-system
+```
+
+---
+
 ## [0.1.9] - 2025-11-21
 
 ### 修复
@@ -304,7 +351,8 @@
 
 ## 版本历史
 
-[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.1.9...HEAD
+[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/zhing2006/game.designkit/compare/v0.1.9...v0.2.0
 [0.1.9]: https://github.com/zhing2006/game.designkit/compare/v0.1.8...v0.1.9
 [0.1.8]: https://github.com/zhing2006/game.designkit/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/zhing2006/game.designkit/compare/v0.1.6...v0.1.7

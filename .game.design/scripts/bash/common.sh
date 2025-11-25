@@ -37,7 +37,7 @@ get_current_branch() {
         for dir in "$specs_dir"/*; do
             if [[ -d "$dir" ]]; then
                 local dirname=$(basename "$dir")
-                if [[ "$dirname" =~ ^([0-9]{3})- ]]; then
+                if [[ "$dirname" =~ ^dk-([0-9]{3})- ]]; then
                     local number=${BASH_REMATCH[1]}
                     number=$((10#$number))
                     if [[ "$number" -gt "$highest" ]]; then
@@ -72,9 +72,9 @@ check_feature_branch() {
         return 0
     fi
 
-    if [[ ! "$branch" =~ ^[0-9]{3}- ]]; then
+    if [[ ! "$branch" =~ ^dk-[0-9]{3}- ]]; then
         echo "ERROR: Not on a feature branch. Current branch: $branch" >&2
-        echo "Feature branches should be named like: 001-feature-name" >&2
+        echo "Feature branches should be named like: dk-001-feature-name" >&2
         return 1
     fi
 
@@ -90,8 +90,8 @@ find_feature_dir_by_prefix() {
     local branch_name="$2"
     local specs_dir="$repo_root/gamedesigns"
 
-    # Extract numeric prefix from branch (e.g., "004" from "004-whatever")
-    if [[ ! "$branch_name" =~ ^([0-9]{3})- ]]; then
+    # Extract numeric prefix from branch (e.g., "004" from "dk-004-whatever")
+    if [[ ! "$branch_name" =~ ^dk-([0-9]{3})- ]]; then
         # If branch doesn't have numeric prefix, fall back to exact match
         echo "$specs_dir/$branch_name"
         return
@@ -137,7 +137,7 @@ get_feature_paths() {
     local feature_dir=$(find_feature_dir_by_prefix "$repo_root" "$current_branch")
 
     # Extract feature number and determine spec type
-    local feature_num=$(echo "$current_branch" | sed -E 's/^([0-9]+)-.*/\1/')
+    local feature_num=$(echo "$current_branch" | sed -E 's/^dk-([0-9]+)-.*/\1/')
     local spec_type="feature"  # default
     if [ "$feature_num" == "000" ]; then
         spec_type="global"

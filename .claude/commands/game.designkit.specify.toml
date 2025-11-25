@@ -73,9 +73,9 @@ b) 默认行为：
       ```
 
    b. 查找该 short-name 的最高功能编号，检查所有三个源：
-      - 远程分支：`git ls-remote --heads origin | grep -E 'refs/heads/[0-9]+-<short-name>$'`
-      - 本地分支：`git branch | grep -E '^[* ]*[0-9]+-<short-name>$'`
-      - gamedesigns 目录：检查匹配 `gamedesigns/[0-9]+-<short-name>` 的目录
+      - 远程分支：`git ls-remote --heads origin | grep -E 'refs/heads/dk-[0-9]+-<short-name>$'`
+      - 本地分支：`git branch | grep -E '^[* ]*dk-[0-9]+-<short-name>$'`
+      - gamedesigns 目录：检查匹配 `gamedesigns/dk-[0-9]+-<short-name>` 的目录
 
    c. 确定下一个可用编号：
       - 从所有三个源提取所有编号
@@ -114,9 +114,9 @@ b) 默认行为：
 
    **检查点**：在进入步骤3前，AI 必须明确回答：
      - [ ] 已读取 pillars.md
-     - [ ] 已读取 000-xxx/spec.md
-     - [ ] 已读取 000-xxx/plan.md
-     - [ ] 已读取 000-xxx/tasks.md
+     - [ ] 已读取 dk-000-xxx/spec.md
+     - [ ] 已读取 dk-000-xxx/plan.md
+     - [ ] 已读取 dk-000-xxx/tasks.md
      - [ ] 已尝试读取策划案文档（如果存在）
 
 3. 运行脚本创建 spec 目录和文件：
@@ -150,8 +150,8 @@ b) 默认行为：
    - 脚本在 `gamedesigns/` 目录下创建 spec 目录
    - 只能运行此脚本一次
    - JSON 输出示例：
-     - 全局型：`{"BRANCH_NAME":"000-game-vision","SPEC_FILE":"/path/to/gamedesigns/000-game-vision/spec.md","FEATURE_NUM":"000","SPEC_TYPE":"global"}`
-     - 功能型：`{"BRANCH_NAME":"003-combat-system","SPEC_FILE":"/path/to/gamedesigns/003-combat-system/spec.md","FEATURE_NUM":"003","SPEC_TYPE":"feature"}`
+     - 全局型：`{"BRANCH_NAME":"dk-000-game-vision","SPEC_FILE":"/path/to/gamedesigns/dk-000-game-vision/spec.md","FEATURE_NUM":"000","SPEC_TYPE":"global"}`
+     - 功能型：`{"BRANCH_NAME":"dk-003-combat-system","SPEC_FILE":"/path/to/gamedesigns/dk-003-combat-system/spec.md","FEATURE_NUM":"003","SPEC_TYPE":"feature"}`
 
 4. 根据 SPEC_TYPE 加载对应的规范模板：
    - 如果 SPEC_TYPE == "global" → 加载 `.game.design/templates/spec-template-global.md`
@@ -177,7 +177,7 @@ b) 默认行为：
       **功能型（feature-spec）提取内容**：
       - 功能类型（战斗、装备、对话、建造、天赋、经济等系统）
       - 功能目标（体验目标）
-      - 依赖关系（依赖哪些其他 spec，如 000-game-vision）
+      - 依赖关系（依赖哪些其他 spec，如 dk-000-game-vision）
       - 玩家操作（操作流程）
       - 系统接口（与其他系统的对接点）
 
@@ -248,7 +248,7 @@ b) 默认行为：
 
       ### 功能型规范 *(仅当类型为功能型时检查)*
 
-      - [ ] Dependencies 章节明确列出依赖的 spec（至少依赖 000-game-vision）
+      - [ ] Dependencies 章节明确列出依赖的 spec（至少依赖 dk-000-game-vision）
       - [ ] Feature Vision 描述了功能在核心循环中的位置
       - [ ] Feature World 与全局 World 一致
       - [ ] 功能需求不包含实现细节

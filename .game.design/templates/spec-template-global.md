@@ -5,7 +5,7 @@
 <!-- Last AI Update: YYYY-MM-DDTHH:MM:SSZ -->
 
 **类型**：全局型（Game Vision）
-**功能分支**：`[###-feature-name]`
+**功能分支**：`[dk-###-feature-name]`
 **创建时间**：[日期]
 **状态**：草稿
 **输入**：用户描述："$ARGUMENTS"
