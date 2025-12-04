@@ -155,31 +155,19 @@ get_highest_from_branches() {
 
 # Function to check existing branches (local and remote) and return next available number
 check_existing_branches() {
-    local short_name="$1"
-    local gamedesigns_dir="$2"
+    local gamedesigns_dir="$1"
 
-    # Fetch all remotes to get latest branch info (suppress errors if no remotes)
-    git fetch --all --prune 2>/dev/null || true
+    # Get highest number from ALL branches (not just matching short name)
+    local highest_branch=$(get_highest_from_branches)
 
-    # Find all branches matching the pattern using git ls-remote (more reliable)
-    local remote_branches=$(git ls-remote --heads origin 2>/dev/null | grep -E "refs/heads/dk-[0-9]+-${short_name}$" | sed 's/.*\/dk-\([0-9]*\)-.*/\1/' | sort -n)
+    # Get highest number from ALL specs (not just matching short name)
+    local highest_spec=$(get_highest_from_specs "$gamedesigns_dir")
 
-    # Also check local branches
-    local local_branches=$(git branch 2>/dev/null | grep -E "^[* ]*dk-[0-9]+-${short_name}$" | sed 's/^[* ]*//' | sed 's/^dk-//' | sed 's/-.*//' | sort -n)
-
-    # Check gamedesigns directory as well
-    local spec_dirs=""
-    if [ -d "$gamedesigns_dir" ]; then
-        spec_dirs=$(find "$gamedesigns_dir" -maxdepth 1 -type d -name "dk-[0-9]*-${short_name}" 2>/dev/null | xargs -n1 basename 2>/dev/null | sed 's/^dk-//' | sed 's/-.*//' | sort -n)
+    # Take the maximum of both
+    local max_num=$highest_branch
+    if [ "$highest_spec" -gt "$max_num" ]; then
+        max_num=$highest_spec
     fi
-
-    # Combine all sources and get the highest number
-    local max_num=0
-    for num in $remote_branches $local_branches $spec_dirs; do
-        if [ "$num" -gt "$max_num" ]; then
-            max_num=$num
-        fi
-    done
 
     # Return next number
     echo $((max_num + 1))
@@ -284,10 +272,10 @@ if [ "$SPEC_TYPE" == "global" ]; then
 else
     # Feature spec: Determine next available number
     if [ -z "$BRANCH_NUMBER" ]; then
-        # No manual number specified, auto-detect using BRANCH_SUFFIX
+        # No manual number specified, auto-detect
         if [ "$HAS_GIT" = true ]; then
-            # Check existing branches on remotes with the same short-name
-            BRANCH_NUMBER=$(check_existing_branches "$BRANCH_SUFFIX" "$GAMEDESIGNS_DIR")
+            # Check existing branches on remotes
+            BRANCH_NUMBER=$(check_existing_branches "$GAMEDESIGNS_DIR")
         else
             # Fall back to local directory check
             HIGHEST=$(get_highest_from_specs "$GAMEDESIGNS_DIR")
@@ -295,7 +283,8 @@ else
         fi
     fi
 
-    FEATURE_NUM=$(printf "%03d" "$BRANCH_NUMBER")
+    # Force base-10 interpretation to prevent octal conversion (e.g., 010 → 8 in octal, but should be 10 in decimal)
+    FEATURE_NUM=$(printf "%03d" "$((10#$BRANCH_NUMBER))")
 fi
 
 # Now construct the full branch name with feature number and dk- prefix

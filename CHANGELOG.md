@@ -13,6 +13,31 @@
 
 ---
 
+## [0.2.1] - 2025-12-04
+
+### 改进
+
+- **分支编号策略优化** - 同步 Speckit v0.0.89 改进
+  - 变更分支编号检测逻辑：从「匹配相同 short_name」改为「获取所有分支/specs 的全局最高编号」
+  - 旧行为：已有 `dk-005-combat`，新建 `dk-xxx-equipment` 从 001 开始
+  - 新行为：已有 `dk-005-combat`，新建 `dk-xxx-equipment` 从 006 开始
+  - 避免多人协作时不同功能之间的编号重复问题
+  - 简化 `check_existing_branches()` / `Get-NextBranchNumber` 函数，移除 `short_name` 参数
+  - 添加八进制防护：使用 `$((10#$BRANCH_NUMBER))` 强制十进制解析，防止 `010` 被误解为八进制 8
+
+### 修改的文件
+
+- `.game.design/scripts/bash/create-new-feature.sh`
+  - 简化 `check_existing_branches` 函数（调用全局 `get_highest_from_*` 函数）
+  - 修改调用处移除 `$BRANCH_SUFFIX` 参数
+  - 添加 `$((10#$BRANCH_NUMBER))` 八进制防护
+
+- `.game.design/scripts/powershell/create-new-feature.ps1`
+  - 简化 `Get-NextBranchNumber` 函数（调用全局 `Get-HighestNumberFrom*` 函数）
+  - 修改调用处移除 `-ShortName` 参数
+
+---
+
 ## [0.2.0] - 2025-11-25
 
 ### 破坏性变更
@@ -351,7 +376,8 @@ mv gamedesigns/001-combat-system gamedesigns/dk-001-combat-system
 
 ## 版本历史
 
-[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.2.0...HEAD
+[未发布]: https://github.com/zhing2006/game.designkit/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/zhing2006/game.designkit/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/zhing2006/game.designkit/compare/v0.1.9...v0.2.0
 [0.1.9]: https://github.com/zhing2006/game.designkit/compare/v0.1.8...v0.1.9
 [0.1.8]: https://github.com/zhing2006/game.designkit/compare/v0.1.7...v0.1.8

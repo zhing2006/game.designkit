@@ -28,3 +28,6 @@
 
 # Exclude spec-kit files
 .claude/commands/speckit*
+
+# Exclude patch files
+*.patch

@@ -108,68 +108,17 @@ function Get-HighestNumberFromBranches {
 
 function Get-NextBranchNumber {
     param(
-        [string]$ShortName,
         [string]$GameDesignsDir
     )
 
-    # Fetch all remotes to get latest branch info (suppress errors if no remotes)
-    try {
-        git fetch --all --prune 2>$null | Out-Null
-    } catch {
-        # Ignore fetch errors
-    }
+    # Get highest number from ALL branches (not just matching short name)
+    $highestBranch = Get-HighestNumberFromBranches
 
-    # Find remote branches matching the pattern using git ls-remote
-    $remoteBranches = @()
-    try {
-        $remoteRefs = git ls-remote --heads origin 2>$null
-        if ($remoteRefs) {
-            $remoteBranches = $remoteRefs | Where-Object { $_ -match "refs/heads/dk-(\d+)-$([regex]::Escape($ShortName))$" } | ForEach-Object {
-                if ($_ -match "refs/heads/dk-(\d+)-") {
-                    [int]$matches[1]
-                }
-            }
-        }
-    } catch {
-        # Ignore errors
-    }
+    # Get highest number from ALL specs (not just matching short name)
+    $highestSpec = Get-HighestNumberFromSpecs -GameDesignsDir $GameDesignsDir
 
-    # Check local branches
-    $localBranches = @()
-    try {
-        $allBranches = git branch 2>$null
-        if ($allBranches) {
-            $localBranches = $allBranches | Where-Object { $_ -match "^\*?\s*dk-(\d+)-$([regex]::Escape($ShortName))$" } | ForEach-Object {
-                if ($_ -match "dk-(\d+)-") {
-                    [int]$matches[1]
-                }
-            }
-        }
-    } catch {
-        # Ignore errors
-    }
-
-    # Check gamedesigns directory
-    $specDirs = @()
-    if (Test-Path $GameDesignsDir) {
-        try {
-            $specDirs = Get-ChildItem -Path $GameDesignsDir -Directory | Where-Object { $_.Name -match "^dk-(\d+)-$([regex]::Escape($ShortName))$" } | ForEach-Object {
-                if ($_.Name -match "^dk-(\d+)-") {
-                    [int]$matches[1]
-                }
-            }
-        } catch {
-            # Ignore errors
-        }
-    }
-
-    # Combine all sources and get the highest number
-    $maxNum = 0
-    foreach ($num in ($remoteBranches + $localBranches + $specDirs)) {
-        if ($num -gt $maxNum) {
-            $maxNum = $num
-        }
-    }
+    # Take the maximum of both
+    $maxNum = [Math]::Max($highestBranch, $highestSpec)
 
     # Return next number
     return $maxNum + 1
@@ -271,10 +220,10 @@ if ($Type -eq 'global') {
 } else {
     # Feature spec: Determine next available number
     if ($Number -eq 0) {
-        # No manual number specified, auto-detect using BRANCH_SUFFIX
+        # No manual number specified, auto-detect
         if ($hasGit) {
             # Check existing branches on remotes
-            $Number = Get-NextBranchNumber -ShortName $branchSuffix -GameDesignsDir $gameDesignsDir
+            $Number = Get-NextBranchNumber -GameDesignsDir $gameDesignsDir
         } else {
             # Fall back to local directory check
             $Number = (Get-HighestNumberFromSpecs -GameDesignsDir $gameDesignsDir) + 1
